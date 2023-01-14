@@ -22,10 +22,12 @@ These are commonly used libraries, and it is easy to install. However, my comput
 
 - Tensorflow libraries should be installed with Miniforge, and the python version should be 3.9.
     - This is the link teaches how to install TensorFlow:
-        Chinese version:
+        - Chinese version:
             1. https://blog.csdn.net/crist_meng/article/details/121947662?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-121947662-blog-115792419.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-121947662-blog-115792419.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1
+
             2. https://zhuanlan.zhihu.com/p/474212619
-        English Version
+
+        - English Version
             1. https://claytonpilat.medium.com/tutorial-tensorflow-on-an-m1-mac-using-jupyter-notebooks-and-miniforge-dbb0ef67bf90
 
 - When running l2.extract_feature_labels(), 
