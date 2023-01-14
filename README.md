@@ -9,7 +9,7 @@ This readme gives the structure of the code and the procedures about how to trai
 
 The computer I used to do the project is MacBook Pro (13-inch, M1, 2020). Version is 12.6.
 
-### Python Libraries used:
+### Python Libraries used: (python version 3.9)
 - numpy
 - sklearn
 - pandas
@@ -18,7 +18,7 @@ The computer I used to do the project is MacBook Pro (13-inch, M1, 2020). Versio
 - Tensorflow
 
 
-These are commonly used libraries, and it is easy to install. However, my computer is a M1-chip Mac, this gives many limitations on installing libraries. 
+These are commonly used libraries, and it is easy to install. However, my computer is a M1-chip Mac Pro, this gives many limitations on installing libraries. 
 
 - Tensorflow libraries should be installed with Miniforge, and the python version should be 3.9.
     - This is the link teaches how to install TensorFlow:
@@ -53,21 +53,25 @@ These are commonly used libraries, and it is easy to install. However, my comput
 
 &emsp; -- main.py
 
+&emsp; -- lab2_landmarks.py
+
+&emsp; -- shape_predictor_68_face_landmarks.dat
+
+&emsp; -- README.md
+
+--README.md
+
 ### Program run instruction
 You can run "python A1/A2/B1/B2.py" to run each task. And it can also be done with "python main.py" which 4 tasks will be run one by one.
 
-A1/A2/B1/B2.py task included the code does hyperparameter tuning and the one with default setting(has no inputs). 
-For A1 and A2, 
+A1/A2/B1/B2.py task included the code does hyperparameter tuning and the one with default setting(has no inputs). Some code about PCA transforming which is designed to use to do the dimensionality reduction before but was discarded at last with yielding a bad accuracy. It  kept in the code but was commented out.
+
+- For A1 and A2, 
     SVM is with hyperparameter tuning function.
     DT is with hyperparameter tuning function.
     KNN is with hyperparameter tuning function.
 
-For B1 and B2,
-    SVM goes with the default setting, no inputs. model=SVC().This may give an unmatched accuracy with the report-written accuracy.
+- For B1 and B2,
+    SVM goes with the default setting, no inputs. model=SVC().This may give an unmatched accuracy with the report-written accuracy. The SVM model with hyperparameter tuning functionality was kept in the python file as well but was commented below.
     RF is with hyperparameter tuning function.
     KNN is with hyperparameter tuning function.
-
-
-    
-
-

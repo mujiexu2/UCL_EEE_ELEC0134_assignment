@@ -17,8 +17,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier  
 
 def train_test_B2():
-    train_root="../Dataset/dataset_AMLS_22-23/cartoon_set"
-    test_root="../Dataset/dataset_AMLS_22-23_test/cartoon_set_test"
+    train_root="./Dataset/dataset_AMLS_22-23/cartoon_set"
+    test_root="./Dataset/dataset_AMLS_22-23_test/cartoon_set_test"
 
     df = pd.read_csv(train_root+"/labels.csv")
 
@@ -79,13 +79,14 @@ def train_test_B2():
     # X_train=pca.fit_transform(X_train)
     # X_test=pca.fit_transform(X_test)
 
-    '''default SVM'''
-    model=SVC()
-    model.fit(X_train,Y_train.ravel())
-    Y_pred = model.predict(X_test)
-    print('Model: SVM')
-    print('Accutacy Score: ', accuracy_score(Y_test,Y_pred))
-    print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
+     '''default SVM'''
+     print('SVM starts:---------------------------------------------')
+     model=SVC()
+     model.fit(X_train,Y_train.ravel())
+     Y_pred = model.predict(X_test)
+     print('Model: Default SVM')
+     print('Accutacy Score: ', accuracy_score(Y_test,Y_pred))
+     print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
 
     '''SVM+ Hyperparameter Tuning'''
     # from sklearn.model_selection import GridSearchCV
@@ -106,17 +107,20 @@ def train_test_B2():
     # print('Confusion Matrix:\n ',confusion_matrix(Y_test,grid_predictions))
 
     '''Random Forest+ Hyperparameter Tuning'''
+    print('RF Hyperparameter Tuning starts:------------------------')
+    
+    from sklearn.model_selection import GridSearchCV
     rfc = RandomForestClassifier() 
+
     Y_train = Y_train.ravel()
     param_grid = {'max_depth' : np.arange(1,20,1)}
     rf = RandomForestClassifier(n_estimators=11,random_state=42)
     rfc = GridSearchCV(rf,param_grid,cv=5)
     rfc =rfc.fit(X_train,Y_train)
+
     print(rfc.best_params_ ) 
     print(rfc.best_score_ ) 
-    rfc = rfc.fit(X_train, Y_train)
-    Y_pred = rfc.predict(X_test)
-    Y_pred
+
     x1 = []
     y1 = []
     means = rfc.cv_results_['mean_test_score']
@@ -131,14 +135,17 @@ def train_test_B2():
     plt.title('Test accuracy vs. Max depth')
     plt.xlabel('Max depth')
     plt.ylabel('Test accuracy')
-    plt.savefig("accuracy_max_depth_B1_RF.jpg")
+    plt.savefig("accuracy_max_depth_B2_RF.jpg")
+    print('-------------Test accuracy vs. max_depth (B2) is plotted and saved---------------')
+    rfc=RandomForestClassifier(max_depth=18)
+    rfc = rfc.fit(X_train, Y_train)
+    Y_pred = rfc.predict(X_test)
+    print('Model:RF after hyperparameter tuning')
+    print('Accutacy Score: ', accuracy_score(Y_test,Y_pred))
+    print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
 
     '''KNN+Hyperparameter Tuning'''
-    from sklearn.neighbors import KNeighborsClassifier
-    from sklearn.preprocessing import StandardScaler
-    from sklearn.pipeline import Pipeline, FeatureUnion
-    from sklearn.model_selection import GridSearchCV
-
+    print('KNN Hyperparameter Tuning starts:------------------------')
     best_score = 0.0
     best_k = -1
     for k in range(1, 50):
@@ -153,7 +160,7 @@ def train_test_B2():
     model = KNeighborsClassifier(best_k)
     model.fit(X_train, Y_train.ravel())
     Y_pred = model.predict(X_test)
-    print('Model: KNN')
+    print('Model: KNN after Hyperparameter Tuning')
     print('Accutacy Score: ', accuracy_score(Y_test,Y_pred))
     print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
 

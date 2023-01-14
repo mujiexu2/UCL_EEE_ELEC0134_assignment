@@ -17,8 +17,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline, FeatureUnion
 
 def train_test_B1():
-    train_root="../Dataset/dataset_AMLS_22-23/cartoon_set"
-    test_root="../Dataset/dataset_AMLS_22-23_test/cartoon_set_test"
+    train_root="./Dataset/dataset_AMLS_22-23/cartoon_set"
+    test_root="./Dataset/dataset_AMLS_22-23_test/cartoon_set_test"
     # '''With Dlib'''
     # import lab2_landmarks as l2
     # X_train, Y_train = l2.extract_features_labels(os.path.join(train_root, "img"), train_root, "faceshape")
@@ -42,9 +42,9 @@ def train_test_B1():
         Y_train.append(int(li[2]))
     #Y_train
     Y_train=np.array(Y_train)
-    Y_train
+    #Y_train
     Y_train=Y_train.reshape(-1,1)
-    Y_train.shape
+    print('Y_train shape: ',Y_train.shape)
 
     X_train=[]
     for j in range(10000):
@@ -56,13 +56,10 @@ def train_test_B1():
         ii=np.asarray(im)
         ii=ii.flatten()
         X_train.append(ii)
-        print(j)
     #X_train
     X_train=np.array(X_train)
-    X_train
     
     df_t=pd.read_csv(test_root+"/labels.csv")
-    df_t
     Y_test=[]
     for i in range(2500):
         li=df_t["\teye_color\tface_shape\tfile_name"][i].split('\t')
@@ -70,7 +67,7 @@ def train_test_B1():
     #Y_test
     Y_test=np.array(Y_test)
     Y_test=Y_test.reshape(-1,1)
-    Y_test.shape
+    print('Y_test shape:', Y_test.shape)
 
     X_test=[]
     for j in range(2500):
@@ -84,7 +81,6 @@ def train_test_B1():
         X_test.append(ii)
     #X_test
     X_test=np.array(X_test)
-    X_test
 
     # '''PCA'''
     # from sklearn.decomposition import PCA
@@ -109,30 +105,30 @@ def train_test_B1():
     # print('accuracy score: ', accuracy_score(Y_test,grid_predictions))
     # print('Confusion Matrix:\n ',confusion_matrix(Y_test,grid_predictions))
 
-    '''Default SVM'''
-    model=SVC()
-    model.fit(X_train,Y_train.ravel())
-    Y_pred = model.predict(X_test)
-    Y_pred
-    print('Model: SVM')
-    print('Accutacy Score: ', accuracy_score(Y_test,Y_pred))
-    print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
+     '''Default SVM'''
+     print('SVM starts:---------------------------------------------')
+     model=SVC()
+     model.fit(X_train,Y_train.ravel())
+     Y_pred = model.predict(X_test)
+     print('Model: Default SVM')
+     print('Accutacy Score: ', accuracy_score(Y_test,Y_pred))
+     print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
 
     '''Random Forest Classifier+ Hyperparameter Tuning'''
+    print('RF Hyperparameter Tuning starts:------------------------')
     rfc = RandomForestClassifier() 
     param_grid = {'max_depth' : np.arange(1,20,1)}
     rf = RandomForestClassifier(n_estimators=11,random_state=42)
     rfc = GridSearchCV(rf,param_grid,cv=5)
-    rfc =rfc.fit(X_train,Y_train)
+    rfc =rfc.fit(X_train,Y_train.ravel())
     print(rfc.best_params_ ) 
     print(rfc.best_score_ ) 
-    Y_train = Y_train.ravel()
-    rfc = rfc.fit(X_train, Y_train)
-    Y_pred = rfc.predict(X_test)
+
     x1 = []
     y1 = []
     means = rfc.cv_results_['mean_test_score']
     params = rfc.cv_results_['params']
+
     for mean,param in zip(means,params):
         print("%f  with:   %r" % (mean,param))
         x1.append(int(param['max_depth']))
@@ -145,7 +141,18 @@ def train_test_B1():
     plt.ylabel('Test accuracy')
     plt.savefig("accuracy_max_depth_B1_RF.jpg")
 
+    print('------------Test accuracy vs. max_depth (B1) is plotted and saved---------------')
+    Y_train = Y_train.ravel()
+    rfc=RandomForestClassifier(max_depth=14)
+    rfc = rfc.fit(X_train, Y_train)
+    Y_pred = rfc.predict(X_test)
+    
+    print('Model:RF after Hyperparameter Tuning')
+    print('Accutacy Score: ', accuracy_score(Y_test,Y_pred))
+    print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
+
     '''KNN + Hyperparameter Tuning'''
+    print('KNN Hyperparameter Tuning starts:------------------------')
     best_score = 0.0
     best_k = -1
     for k in range(1, 50):

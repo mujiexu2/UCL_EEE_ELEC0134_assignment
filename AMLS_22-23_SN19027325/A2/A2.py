@@ -18,8 +18,9 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn import tree
 
 def train_test_A2():
-    train_root="../Dataset/dataset_AMLS_22-23/celeba"
-    test_root="../Dataset/dataset_AMLS_22-23_test/celeba_test"
+    train_root="./Dataset/dataset_AMLS_22-23/celeba"
+    test_root="./Dataset/dataset_AMLS_22-23_test/celeba_test"
+
     '''With Dlib'''
     X_train, Y_train = l2.extract_features_labels(os.path.join(train_root, "img"), train_root, "smiling")
     X_test, Y_test = l2.extract_features_labels(os.path.join(test_root, "img"), test_root, "smiling")
@@ -29,7 +30,6 @@ def train_test_A2():
     Y_train=Y_train.reshape(-1,1)
     num=len(X_test)
     X_test=np.array(X_test).reshape(num,-1)
-    print(X_test.shape)
     Y_test=np.array(Y_test)
     Y_test=Y_test.reshape(-1,1)
 
@@ -84,6 +84,7 @@ def train_test_A2():
     # X_test=pca.fit_transform(X_test)
 
     '''SVM+Hyperparameter Tuning'''
+    print('SVM Hyperparameter Tuning starts:------------------------')
     param_grid = {'C': [0.1, 1, 10, 100, 1000], 
                 'gamma': [1, 0.1, 0.01, 0.001, 0.0001],
                 'kernel': ['rbf']} 
@@ -93,7 +94,7 @@ def train_test_A2():
     print(grid.best_params_) 
     print(grid.best_estimator_)
     grid_predictions = grid.predict(X_test)
-    print("Model: SVM")
+    print("Model: SVM after hyperparameter tuning")
     print(classification_report(Y_test, grid_predictions))
     print('Accuracy score: ', accuracy_score(Y_test,grid_predictions))
     print('Confusion Matrix:\n ',confusion_matrix(Y_test,grid_predictions))
@@ -124,6 +125,7 @@ def train_test_A2():
     # print('Precision Score: ',precision_score(Y_test,Y_pred))
     # print('Recall Score: ',recall_score(Y_test, Y_pred))
     # print('F1 Score: ',f1_score(Y_test,Y_pred))
+    print('DT Hyperparameter Tuning starts:------------------------')
     accuracy=[]
     confusion=[]
     precision=[]
@@ -160,6 +162,7 @@ def train_test_A2():
     plt.xlabel('Max depth')
     plt.ylabel('Test accuracy')
     plt.savefig("accuracy_max_depth_A2.jpg")
+    print('-------------Test accuracy vs. max_depth (A2) is plotted and saved---------------')
 
     '''KNN+Hyperparameter Tuning'''
     best_score = 0.0

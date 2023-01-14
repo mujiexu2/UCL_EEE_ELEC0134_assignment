@@ -20,8 +20,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn import tree
 
 def train_test_A1():
-    train_root="../Dataset/dataset_AMLS_22-23/celeba"
-    test_root="../Dataset/dataset_AMLS_22-23_test/celeba_test"
+    train_root="./Dataset/dataset_AMLS_22-23/celeba"
+    test_root="./Dataset/dataset_AMLS_22-23_test/celeba_test"
 
     '''With Dlib'''
     X_train, Y_train = l2.extract_features_labels(os.path.join(train_root, "img"), train_root, "gender")
@@ -91,6 +91,7 @@ def train_test_A1():
     # X_test=pca.fit_transform(X_test)
 
     '''SVM+ Hyperparameter Tuning'''
+    print('SVM Hyperparameter Tuning starts:------------------------')
     param_grid = {'C': [0.1, 1, 10, 100, 1000], 
                 'gamma': [1, 0.1, 0.01, 0.001, 0.0001],
                 'kernel': ['rbf']} 
@@ -100,7 +101,7 @@ def train_test_A1():
     print(grid.best_estimator_)
     grid_predictions = grid.predict(X_test)
     print(classification_report(Y_test, grid_predictions))
-    print('Model: SVM')
+    print('Model: SVM after Hyperparameter Tuning: ')
     print('accuracy score: ', accuracy_score(Y_test,grid_predictions))
     print('Confusion Matrix:\n ',confusion_matrix(Y_test,grid_predictions))
     print('Precision Score: ',precision_score(Y_test,grid_predictions))
@@ -108,6 +109,7 @@ def train_test_A1():
     print('F1 Score: ',f1_score(Y_test,grid_predictions))
 
     '''Decision Tree+ Hyperparameter Tuning'''
+    print('Decision Tree Hyperparameter Tuning starts:------------------------')
     accuracy=[]
     confusion=[]
     precision=[]
@@ -130,7 +132,7 @@ def train_test_A1():
     clf=tree.DecisionTreeClassifier(max_depth=depth)
     clf.fit(X_train,Y_train)
     Y_pred = clf.predict(X_test)
-    print('Model: Decision Tree')
+    print('Model: Decision Tree after Hyperparameter Tuning')
     print('Accuracy Score: ',accuracy_score(Y_test,Y_pred))
     print('Confusion Matrix:\n ',confusion_matrix(Y_test,Y_pred))
     print('Precision Score: ',precision_score(Y_test,Y_pred))
@@ -144,7 +146,9 @@ def train_test_A1():
     plt.xlabel('Max depth')
     plt.ylabel('Test accuracy')
     plt.savefig("accuracy_max_depth_A1.jpg")
+    print('-------------Test accuracy vs. max_depth (A1) is plotted and saved---------------')
 
+    print('KNN Hyperparameter Tuning starts:------------------------')
     '''KNN + Hyperparameter Tuning'''
     best_score = 0.0
     best_k = -1
@@ -160,7 +164,7 @@ def train_test_A1():
     model = KNeighborsClassifier(best_k)
     model.fit(X_train, Y_train.ravel())
     Y_pred = model.predict(X_test)
-    print('Model: KNN')
+    print('Model: KNN after Hyperparameter Tuning')
     print(accuracy_score(Y_test,Y_pred))
     print(confusion_matrix(Y_test,Y_pred))
     print(precision_score(Y_test,Y_pred))
