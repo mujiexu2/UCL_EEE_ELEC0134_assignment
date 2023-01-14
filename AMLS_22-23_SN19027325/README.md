@@ -17,6 +17,9 @@ The computer I used to do the project is MacBook Pro (13-inch, M1, 2020). Versio
 - os
 - Tensorflow
 - matplotlib
+- cv2
+- dlib
+- keras
 
 
 These are commonly used libraries, and it is easy to install. However, my computer is a M1-chip Mac Pro, this gives many limitations on installing libraries. 
